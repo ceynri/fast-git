@@ -1,28 +1,29 @@
 {
-  "name": "fast-git",
+  "name": "fast-tag",
   "version": "1.0.0",
-  "description": "Cli tool for webpack project to tag and push to remote repository fastly",
+  "description": "Cli tool for npm project to tag and push to remote repository fastly",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "test": "node test/index.js"
   },
   "bin": {
-    "fgit": "./bin/fgit.js"
+    "ftag": "./bin/ftag.js"
   },
   "keywords": [
-    "git",
-    "auto",
     "tag",
-    "webpack",
+    "version",
+    "git",
+    "npm",
+    "auto",
     "cli"
   ],
   "author": "ceynri",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ceynri/fast-git.git"
+    "url": "https://github.com/ceynri/fast-tag.git"
   },
-  "homepage": "https://github.com/ceynri/fast-git",
+  "homepage": "https://github.com/ceynri/fast-tag",
   "license": "ISC",
   "dependencies": {
     "commander": "^6.1.0",

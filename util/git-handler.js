@@ -4,37 +4,26 @@ const path = require('path');
 const fs = require('fs');
 
 class Utils {
-  getIndentSize(path) {
-    // TODO 获取json文件的缩进大小
-    // fs.readFileSync(path)
-    return 2;
-  }
-
-  getPkgPath(filePath = process.cwd()) {
+  /**
+   * 获取最近的 package.json 文件路径
+   * @param {String} currentDir 当前路径
+   */
+  getPkgPath(currentDir = process.cwd()) {
     // 获取package.json对象
-    const pkgPath = path.resolve(filePath, './package.json');
-    const parent = path.dirname(filePath);
+    const pkgPath = path.resolve(currentDir, './package.json');
+    const parentDir = path.dirname(currentDir);
     if (fs.existsSync(pkgPath)) {
       return pkgPath;
     }
-    if (parent !== filePath) {
-      return this.getPkgPath(path.dirname(filePath));
+    if (parentDir !== currentDir) {
+      return this.getPkgPath(parentDir);
     }
     throw Error('package.json file not found!');
   }
 
-  getGitBase(filePath = process.cwd()) {
-    const gitFile = path.resolve(filePath, './.git');
-    const parent = path.dirname(filePath);
-    if (fs.existsSync(gitFile)) {
-      return filePath;
-    }
-    if (parent !== filePath) {
-      return this.getGitBase(path.dirname(filePath));
-    }
-    return null;
-  }
-
+  /**
+   * 获取 package.json 文件对象
+   */
   getPkg() {
     const pkgPath = this.getPkgPath();
     if (pkgPath) {
@@ -50,6 +39,11 @@ class Utils {
     return this.getPkg() && this.getPkg().version;
   }
 
+  /**
+   * 更新 package.json 版本号
+   * @param {Array} updateArray 更新数组，用三个状态位表示更新哪个等级的版本号
+   * @returns {String} 新的版本号
+   */
   updateVersion(updateArray) {
     // 获取版本号数组
     const verArray = this.getVersion().split('.', 3).map(Number);
@@ -86,10 +80,23 @@ class Utils {
     return newVer;
   }
 
+  /**
+   * 判断是否是 monoRepo 类型（指 lerna 仓库）
+   */
   isMonoRepo() {
     const currentPkgPath = this.getPkgPath();
     const parentPkgPath = this.getPkgPath(path.dirname(currentPkgPath));
     return !!parentPkgPath;
+  }
+
+  /**
+   * 获取文件的缩进大小
+   * @param {String} path 文件路径
+   */
+  getIndentSize(path) {
+    // TODO 获取json文件的缩进大小
+    // fs.readFileSync(path)
+    return 2;
   }
 }
 
