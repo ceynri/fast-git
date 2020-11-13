@@ -1,4 +1,5 @@
-const gitHandler = require('../util/git-handler');
+#! /usr/bin/env node
+const { gitHandler } = require('../util');
 const { program } = require('commander');
 
 // 设置该工具的版本号
@@ -33,8 +34,13 @@ program
     '-n, --notupdate',
     'use current version, not update package.json version'
   )
+  .option(
+    '-p, --push',
+    'push new tag to remote repository at last'
+  )
   .action((msg, args) => {
     gitHandler.tag(msg, args);
-  });
+  })
+;
 
 program.parse(process.argv);
