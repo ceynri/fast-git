@@ -1,6 +1,6 @@
 {
   "name": "fast-tag",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A simple cli tool that names tag, updates npm versions, and pushes to remote repository fastly.",
   "main": "index.js",
   "scripts": {
