@@ -6,7 +6,7 @@
 
 ## 安装
 
-通过[npm](https://www.npmjs.com/)安装：
+通过 [npm](https://www.npmjs.com/package/fast-tag) 安装：
 
 ```bash
 npm i fast-tag -g

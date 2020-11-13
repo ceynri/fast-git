@@ -6,7 +6,7 @@ English | [简体中文](https://github.com/ceynri/fast-tag/blob/master/README_z
 
 ## Installation
 
-Easiest way is through [npm](https://www.npmjs.com/):
+Easiest way is through [npm](https://www.npmjs.com/package/fast-tag):
 
 ```bash
 npm i fast-tag -g
