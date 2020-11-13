@@ -33,8 +33,8 @@ class GitHandler {
       await git.addTag(tagName);
       console.log(`patch tag name: ${tagName}`);
       if (args.push) {
-        await git.push();
-        console.log('push tag to remote repository success');
+        git.push(['origin', tagName]);
+        console.log('push tag to remote repository');
       }
     } catch (e) {
       console.error(e);
