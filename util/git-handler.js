@@ -9,16 +9,17 @@ class GitHandler {
         // 获取新的版本号
         version = utils.updateVersion([args.large, args.medium, args.small]);
         // 提交更新后的版本号
-        await git.add('./package.json').commit(`ci: update version ${version}`);
+        const commitMsg = `ci: update version ${version}`;
+        await git.add('./package.json').commit(commitMsg);
         // TODO 此处如果已经有其他暂存文件，提示是否需要分别commit
-        console.log('commit new version');
+        console.log(`commit: "${commitMsg}"`);
       } else {
         version = utils.getVersion();
       }
       // 如果输入了msg信息，则帮忙提交所有未暂存的文件
       if (msg) {
         await git.add('-A').commit(msg);
-        console.log(`commit all change: ${msg}`);
+        console.log(`commit all change: "${msg}"`);
       }
       // 获取tag名
       let tagName = `v${version}`;
