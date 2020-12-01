@@ -22,39 +22,60 @@ Fast tag expects to do automatic version number update for package.json flie, so
 
 ## Usage
 
-### `ftag tag`
+### Introduction
 
 ```bash
-ftag tag [options] [msg]
+ftag [options] [msg]
 ```
 
-Options:
+When you enter `ftag`, fast tag will:
 
-| abbr | full        | effect                                                                           |
-| ---- | ----------- | -------------------------------------------------------------------------------- |
-| -s   | --small     | (default) update PATCH version when you make backwards compatible bug fixes      |
-| -m   | --medium    | update MINOR version when you add functionality in a backwards compatible manner |
-| -l   | --large     | update MAJOR version when you make incompatible API changes                      |
-| -n   | --notupdate | use current version, not update package.json version number                      |
-| -p   | --push      | push new tag to remote repository at last                                        |
-| -h   | --help      | display help for command                                                         |
-
-When you enter `ftag tag`, fast tag will:
-
+- update local repo from remote repo and try to merge
 - get the version number from nearest package.json
 - increment the version number according to the options (Upgrade patch version by default)
-- save the new version number in the package.json file and commit it (commit message: `ci: update version ${version}`)
-- and then use the new version number as the tag name for `git tag`
+- save the new version number in the package.json file and push it to remote repo (commit message: `ci: version ${version}`)
+- and then use the new version number as the tag name for `git tag` and pusn to remote repo
 
-You can add some infomation as commit message, fast tag will commit ALL uncommitted changes.
+You can add `msg` as commit message, fast tag will commit ALL uncommitted changes. If there are no uncommitted changes, `msg` will be used as the package.json submit message.
 
-example:
+Of course, it is recommended that before using the fast tag, you have already done the commit of the files, pull remote repo to the local, instead of relying on a ftag command to complete these things, which can maintain the independence of each command.
+
+### Examples
+
+simple usage:
 
 ```bash
-ftag tag -p 'docs: update README'
+ftag
 ```
 
-Of course, if your changes are complex, it is better to commit the changes individually instead of combining them all in one ftag command at once, which can maintain the independence of each command.
+lerna repo:
+
+```bash
+ftag -L
+```
+
+patch tag with update the minor version number:
+
+```bash
+ftag -m
+```
+
+patch tag with submit all changes:
+
+```bash
+ftag 'feat: add some new features'
+```
+
+### Options
+
+| abbr | full        | effect                                                                                  |
+| ---- | ----------- | --------------------------------------------------------------------------------------- |
+| -s   | --small     | (default) update PATCH version when you make backwards compatible bug fixes             |
+| -m   | --medium    | update MINOR version when you add functionality in a backwards compatible manner        |
+| -l   | --large     | update MAJOR version when you make incompatible API changes                             |
+| -n   | --notupdate | use current version, not update package.json version number                             |
+| -L   | --lerna     | lerna mode, version number will concat the part of the branch name in front as tag name |
+| -h   | --help      | display help for command                                                                |
 
 ## Libraries
 
@@ -73,6 +94,8 @@ So Fast Tag was born.
 
 > Will other commands be provided?
 
-At present, only self-use is the standard, because most of the effect can be implemented with git, such as the "one-click git add, commit, push", or the "alias ​​long command". It is not considered a good habit. Recommend memorizing the native command of git to make the use of git more flexible.
+Currently, fast-tag only want to patch tag well.
+
+By the way, most of the effect can be implemented with git, such as the "one-click git add, commit, push", or the "alias ​​long command". It is not considered a good habit. Recommend memorizing the native command of git to make the use of git more flexible.
 
 <br>
