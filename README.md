@@ -79,8 +79,8 @@ ftag 'feat: add some new features'
 
 ## Libraries
 
-- [Simple Git](https://github.com/steveukx/git-js) A lightweight interface for running git commands in any node.js application.
-- [Commander.js](https://github.com/tj/commander.js) The complete solution for node.js command-line interfaces.
+- [Simple Git](https://github.com/steveukx/git-js) - A lightweight interface for running git commands in any node.js application.
+- [Commander.js](https://github.com/tj/commander.js) - The complete solution for node.js command-line interfaces.
 
 ## Questions
 

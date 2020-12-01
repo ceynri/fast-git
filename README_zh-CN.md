@@ -79,8 +79,8 @@ ftag 'feat: 添加某某新特性'
 
 ## 借助库
 
-- [Simple Git](https://github.com/steveukx/git-js) node.js 版本的轻量级 git 接口
-- [Commander.js](https://github.com/tj/commander.js) node.js 环境下的 cli 工具解决方案
+- [Simple Git](https://github.com/steveukx/git-js) - node.js 版本的轻量级 git 接口
+- [Commander.js](https://github.com/tj/commander.js) - node.js 环境下的 cli 工具解决方案
 
 ## 一些问题
 
