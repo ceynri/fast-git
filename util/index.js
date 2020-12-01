@@ -3,41 +3,6 @@ const fs = require('fs');
 
 class Utils {
   /**
-   * 获取 package.json 文件对象
-   */
-  getPkg() {
-    const pkgPath = this.getPkgPath();
-    if (pkgPath) {
-      return require(pkgPath);
-    }
-    return null;
-  }
-
-  /**
-   * 获取最近的 package.json 文件路径
-   * @param {String} currentDir 当前路径
-   */
-  getPkgPath(currentDir = process.cwd()) {
-    // 获取package.json对象
-    const pkgPath = path.resolve(currentDir, './package.json');
-    const parentDir = path.dirname(currentDir);
-    if (fs.existsSync(pkgPath)) {
-      return pkgPath;
-    }
-    if (parentDir !== currentDir) {
-      return this.getPkgPath(parentDir);
-    }
-    return '';
-  }
-
-  /**
-   * 获取版本号
-   */
-  getVersion() {
-    return this.getPkg() && this.getPkg().version;
-  }
-
-  /**
    * 更新 package.json 版本号
    * @param {Array} updateArray 更新数组，用三个状态位表示更新哪个等级的版本号
    * @returns {String} 新的版本号
@@ -63,10 +28,6 @@ class Utils {
 
     // 获取原始文件的缩进大小
     const pkgPath = this.getPkgPath();
-    if (!pkgPath) {
-      console.error('package.json file not found!');
-      return '';
-    }
     const indentSize = this.getIndentSize(pkgPath);
     // 将package序列化为json字符串
     const pkgJson = JSON.stringify(pkg, null, indentSize);
@@ -80,6 +41,48 @@ class Utils {
     });
 
     return newVer;
+  }
+
+  /**
+   * 获取版本号
+   */
+  getVersion() {
+    return this.getPkg() && this.getPkg().version;
+  }
+
+  /**
+   * 获取 package.json 文件对象
+   */
+  getPkg() {
+    const pkgPath = this.getPkgPath();
+    if (pkgPath) {
+      try {
+        return JSON.parse(fs.readFileSync(pkgPath));
+      } catch (e) {
+        console.error(e.message);
+        console.error('Please merge conflicts manually and try again');
+        process.exit(1);
+      }
+    }
+    console.error('package.json file not found!');
+    process.exit(1);
+  }
+
+  /**
+   * 获取最近的 package.json 文件路径
+   * @param {String} currentDir 当前路径
+   */
+  getPkgPath(currentDir = process.cwd()) {
+    // 获取package.json对象
+    const pkgPath = path.resolve(currentDir, './package.json');
+    const parentDir = path.dirname(currentDir);
+    if (fs.existsSync(pkgPath)) {
+      return pkgPath;
+    }
+    if (parentDir !== currentDir) {
+      return this.getPkgPath(parentDir);
+    }
+    return '';
   }
 
   /**
@@ -104,4 +107,4 @@ class Utils {
 }
 
 exports.utils = new Utils();
-exports.gitHandler = require('./git-handler');
+exports.Executor = require('./executor');

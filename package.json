@@ -1,12 +1,11 @@
 {
   "name": "fast-tag",
-  "version": "1.0.7",
+  "version": "2.0.0",
   "description": "A simple cli tool that names tag, updates npm versions, and pushes to remote repository fastly.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "node test/index.js",
-    "tag": "ftag tag"
+    "test": "node test/index.js"
   },
   "bin": {
     "ftag": "./bin/ftag.js"
@@ -30,6 +29,7 @@
   "license": "ISC",
   "dependencies": {
     "commander": "^6.1.0",
+    "inquirer": "^7.3.3",
     "request": "^2.88.2",
     "simple-git": "^2.21.0"
   }
