@@ -1,6 +1,8 @@
-require('array-flat-polyfill'); // simple-git 使用 flatMap 等较新的语法，旧版本需要 polyfill
 const git = require('simple-git')();
+require('array-flat-polyfill'); // simple-git 使用 flatMap 等较新的语法，旧版本需要 polyfill
+
 const inquirer = require('inquirer');
+const chalk = require('chalk');
 
 const { utils } = require('./index');
 
@@ -35,7 +37,7 @@ class Executor {
       // 推送tag
       await this.pushTag();
     } catch (e) {
-      console.error(e);
+      console.log(chalk.red(e));
     }
   }
 
@@ -91,7 +93,7 @@ class Executor {
     // 提交更新
     const msg = this.nocommit ? this.msg : `ci: version ${this.version}`;
     await git.commit(msg);
-    console.log(`[commit] message: "${msg}"`);
+    console.log(chalk.blue('[commit]'), 'message:', chalk.green(`"${msg}"`));
 
     // 推送到远程仓库
     await this.push('commit');
@@ -102,10 +104,10 @@ class Executor {
    */
   async commitAll() {
     await git.add('-A');
-    console.log('[add] add all changes');
+    console.log(chalk.blue('[add]'), 'add all changes');
     const { branch, commit } = await git.commit(this.msg);
     if (commit) {
-      console.log(`[commit] ${branch} ${commit}: "${this.msg}"`);
+      console.log(chalk.blue('[commit]'), `${branch} ${commit}:`, chalk.green(this.msg));
     } else {
       this.nocommit = true;
     }
@@ -118,11 +120,11 @@ class Executor {
     try {
       const res = await git.pull();
       if (!res.files || res.files.length) {
-        console.log('[pull]', res);
+        console.log(chalk.blue('[pull]'), res);
       }
     } catch (e) {
-      console.error('[pull]', e.message);
-      console.log('Please merge conflicts manually and try again');
+      console.log(chalk.blue('[pull]'), chalk.red(e.message));
+      console.log(chalk.yellow('Please check git status and try again'));
       process.exit(1);
     }
     // const res = await git.fetch();
@@ -163,7 +165,7 @@ class Executor {
     const tagName = await this.getTagName();
     // 打tag
     await git.addTag(tagName);
-    console.log(`[tag] ${tagName}`);
+    console.log(chalk.blue('[tag]'), 'tag name:', chalk.green(tagName));
     // 推送到远程仓库
     await this.push('tag', tagName);
   }
@@ -186,7 +188,7 @@ class Executor {
       ]);
       if (answers.lernaMode) {
         this.args.lerna = true;
-        console.log('tips: command with "--lerna" or "-L" param can directly enable lerna mode');
+        console.log(chalk.gray('tips: command with "--lerna" or "-L" param can directly enable lerna mode'));
       }
     }
     if (this.args.lerna) {
@@ -204,10 +206,10 @@ class Executor {
    * @param  {...any} args push参数（可选）
    */
   async push(type = 'commit', ...args) {
-    console.log(`[push] pushing ${type} to remote repository...`);
+    console.log(chalk.blue('[push]'), chalk.gray(`pushing ${type} to remote repository...`));
     await git.push(['origin', ...args], (err, res) => {
       if (err) throw err;
-      console.log(`push successfully: ${res.repo}`);
+      console.log(chalk.blue('[push]'), 'succeeded:', chalk.underline(res.repo));
     });
   }
 }

@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const path = require('path');
 const fs = require('fs');
 
@@ -40,10 +41,10 @@ class Utils {
     // 将修改后的内容写入package.json
     fs.writeFile(pkgPath, pkgJson, (err) => {
       if (err) {
-        console.error(err);
+        console.log(chalk.red(err));
         return '';
       }
-      console.log(`update project version: ${version}`);
+      console.log('update package.json version:', chalk.green(version));
     });
   }
 
@@ -63,12 +64,11 @@ class Utils {
       try {
         return JSON.parse(fs.readFileSync(pkgPath));
       } catch (e) {
-        console.error(e);
-        console.error('Please merge conflicts manually and try again');
+        console.log(chalk.red(e));
         process.exit(1);
       }
     }
-    console.error('package.json file not found!');
+    console.log(chalk.yellow('package.json file not found!'));
     process.exit(1);
   }
 
