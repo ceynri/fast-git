@@ -60,12 +60,32 @@ class Executor {
       return;
     }
 
-    // 更新版本号
-    this.version = utils.updateVersion([
-      this.args.large,
-      this.args.medium,
-      this.args.small,
-    ]);
+    // 是否需要自己输入版本号
+    if (this.args.input) {
+      this.version = utils.getVersion();
+      const answers = await inquirer.prompt([
+        {
+          type: 'input',
+          name: 'inputVersion',
+          message: `Please input new version (current version is ${this.version}):`,
+          validate: (value) => {
+            if(/^\d+\.\d+\.\d+$/.test(value)) {
+              return true;
+            }
+            return 'The version format is "X.Y.Z"';
+          },
+        },
+      ]);
+      this.version = answers.inputVersion;
+    } else {
+      // 自动更新版本号
+      this.version = utils.updateVersion([
+        this.args.large,
+        this.args.medium,
+        this.args.small,
+      ]);
+    }
+    utils.writeVersion(this.version);
     await git.add('./package.json');
 
     // 提交更新

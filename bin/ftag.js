@@ -32,6 +32,10 @@ program
     'use current version, not update package.json version'
   )
   .option(
+    '-i, --input',
+    'input any version number yourself'
+  )
+  .option(
     '-d, --debug',
     '(not implemented) show more console information'
   )

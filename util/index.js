@@ -3,7 +3,7 @@ const fs = require('fs');
 
 class Utils {
   /**
-   * 更新 package.json 版本号
+   * 更新版本号
    * @param {Array} updateArray 更新数组，用三个状态位表示更新哪个等级的版本号
    * @returns {String} 新的版本号
    */
@@ -21,10 +21,16 @@ class Utils {
     } else {
       verArray[2] += 1;
     }
-    const newVer = verArray.join('.');
+    return verArray.join('.');
+  }
 
+  /**
+   * 将版本号写入 package.json 中
+   * @param {String} version 新版本号
+   */
+  writeVersion(version) {
     const pkg = this.getPkg();
-    pkg.version = newVer;
+    pkg.version = version;
 
     // 获取原始文件的缩进大小
     const pkgPath = this.getPkgPath();
@@ -37,10 +43,8 @@ class Utils {
         console.error(err);
         return '';
       }
-      console.log(`update project version: ${newVer}`);
+      console.log(`update project version: ${version}`);
     });
-
-    return newVer;
   }
 
   /**
