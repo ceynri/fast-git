@@ -107,7 +107,7 @@ class Executor {
     console.log(chalk.blue('[add]'), 'add all changes');
     const { branch, commit } = await git.commit(this.msg);
     if (commit) {
-      console.log(chalk.blue('[commit]'), `${branch} ${commit}:`, chalk.green(this.msg));
+      console.log(chalk.blue('[commit]'), `${branch} ${commit}:`, chalk.green(`"${this.msg}"`));
     } else {
       this.nocommit = true;
     }
