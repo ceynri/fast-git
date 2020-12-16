@@ -1,3 +1,4 @@
+require('array-flat-polyfill'); // simple-git 使用 flatMap 等较新的语法，旧版本需要 polyfill
 const git = require('simple-git')();
 const inquirer = require('inquirer');
 
