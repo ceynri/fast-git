@@ -12,10 +12,6 @@ program
     msg: '(optional) all unadded files will be added if you add msg',
   })
   .option(
-    '-L, --lerna',
-    'lerna mode, version number will concat the part of the branch name in front as tag name'
-  )
-  .option(
     '-s, --small',
     '(default) update PATCH version when you make backwards compatible bug fixes'
   )
@@ -28,33 +24,29 @@ program
     'update MAJOR version when you make incompatible API changes'
   )
   .option(
+    '-i, --input',
+    'input any version number yourself'
+  )
+  .option(
     '-n, --notupdate',
     'use current version, not update package.json version'
   )
   .option(
-    '-i, --input',
-    'input any version number yourself'
+    '-b, --branch',
+    'concatenate part of the branch name with version number as the tag name'
+  )
+  .option(
+    '-L, --lerna',
+    'lerna mode, equal to `--branch`'
   )
   .option(
     '-d, --debug',
     '(not implemented) show more console information'
   )
-  // .option(
-  //   '-p, --push',
-  //   'push new tag to remote repository at last'
-  // )
   .action((msg, args) => {
     (new Executor(msg, args)).tag();
     // console.warn('unsupported commands, you can enter "ftag --help" to view more help information');
   })
 ;
-
-// program
-//   .command('test')
-//   .action(async () => {
-//     const git = require('simple-git')();
-//     console.log(await git.fetch());
-//   })
-// ;
 
 program.parse(process.argv);

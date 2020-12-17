@@ -15,6 +15,10 @@ class Executor {
   constructor(msg, args) {
     this.msg = msg;
     this.args = args;
+
+    // 参数branch与lenra等同
+    this.args.branch = this.args.lerna = this.args.branch || this.args.lerna
+
     this.nocommit = false;
     this.version = '';
   }
@@ -127,35 +131,7 @@ class Executor {
       console.log(chalk.yellow('Please check git status and try again'));
       process.exit(1);
     }
-    // const res = await git.fetch();
-    // if (res.raw) {
-    //   console.log(`[fetch] ${res.raw}`);
-    //   const answers = await inquirer.prompt([
-    //     {
-    //       type: 'confirm',
-    //       name: 'pull',
-    //       message: 'repo is not newest, merge it?(Y/n)',
-    //     },
-    //   ]);
-    //   if (!['n', 'N', 'no'].includes(answers.pull)) {
-    //     await this.merge();
-    //   }
-    // }
   }
-
-  // async merge() {
-  //   try {
-  //     const res = await git.merge(['--commit']);
-  //     console.log('[merge]', res);
-  //   } catch (err) {
-  //     // err.message - the string summary of the error
-  //     // err.stack - some stack trace detail
-  //     // err.git - where a parser was able to run, this is the parsed content
-  //     console.error(err);
-  //     console.error(err.message);
-  //     process.exit(1);
-  //   }
-  // }
 
   /**
    * 获取新tag名并推送至远程仓库
