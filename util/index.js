@@ -102,11 +102,20 @@ class Utils {
   /**
    * 获取文件的缩进大小
    * @param {String} path 文件路径
+   * @param {Number} defaultSize 兜底的默认缩进大小
+   * @returns {Number} 缩进大小
    */
-  getIndentSize(path) {
-    // TODO 获取json文件的缩进大小
-    // fs.readFileSync(path)
-    return 2;
+  getIndentSize(path, defaultSize = 2) {
+    const fileString = fs.readFileSync(path);
+    const regex = /^{\n(\s+)/;
+    const res = regex.exec(fileString);
+    if (!res) {
+      console.log(chalk.red(`Failed to detect indentation size of package.json, use the default value "${defaultSize}"`));
+      return defaultSize;
+    }
+    const spaceSize = res[1].length;
+    console.debug('indent size:', spaceSize);
+    return spaceSize;
   }
 }
 
