@@ -34,7 +34,7 @@ class Executor {
       // 推送tag
       await this.pushTag();
     } catch (e) {
-      console.log(chalk.red(e));
+      console.error(chalk.red(e));
     }
   }
 
@@ -127,7 +127,7 @@ class Executor {
     } catch (e) {
       this.debugLog('pull error:', e);
       this.infoLog('pull', chalk.red(e.message));
-      console.log(chalk.magenta('Please check git status and try again'));
+      console.warn(chalk.magenta('Please check git status and try again'));
       process.exit(1);
     }
   }
@@ -163,7 +163,7 @@ class Executor {
       ]);
       if (answers.lernaMode) {
         this.args.lerna = true;
-        console.log(chalk.gray('tips: command with "--lerna" or "-L" param can directly enable lerna mode'));
+        console.info(chalk.gray('tips: command with "--lerna" or "-L" param can directly enable lerna mode'));
       }
     }
     if (this.args.lerna) {

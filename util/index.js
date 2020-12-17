@@ -41,10 +41,10 @@ class Utils {
     // 将修改后的内容写入package.json
     fs.writeFile(pkgPath, pkgJson, (err) => {
       if (err) {
-        console.log(chalk.red(err));
+        console.error(chalk.red(err));
         return '';
       }
-      console.log('update package.json version:', chalk.green(version));
+      console.log(chalk.blue('[write]'), 'update package.json version:', chalk.green(version));
     });
   }
 
@@ -66,11 +66,11 @@ class Utils {
       try {
         return JSON.parse(fs.readFileSync(pkgPath));
       } catch (e) {
-        console.log(chalk.red(e));
+        console.error(chalk.red(e));
         process.exit(1);
       }
     }
-    console.log(chalk.magenta('package.json file not found!'));
+    console.warn(chalk.magenta('package.json file not found!'));
     process.exit(1);
   }
 
@@ -114,7 +114,7 @@ class Utils {
     const regex = /^{\n(\s+)/;
     const res = regex.exec(fileString);
     if (!res) {
-      console.log(chalk.red(`Failed to detect indentation size of package.json, use the default value "${defaultSize}"`));
+      console.warn(chalk.magenta(`Failed to detect indentation size of package.json, use the default value "${defaultSize}"`));
       return defaultSize;
     }
     const spaceSize = res[1].length;
