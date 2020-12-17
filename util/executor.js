@@ -163,7 +163,7 @@ class Executor {
       ]);
       if (answers.lernaMode) {
         this.args.lerna = true;
-        console.info(chalk.gray('tips: command with "--lerna" or "-L" param can directly enable lerna mode'));
+        console.info(chalk.gray('[tips] command with "--lerna" or "-L" param can directly enable lerna mode'));
       }
     }
     if (this.args.lerna) {
@@ -194,7 +194,7 @@ class Executor {
     await git.push(['origin', ...args], (err, res) => {
       this.debugLog('push result:', res);
       if (err) throw err;
-      this.infoLog('push', `push ${type} succeeded: ${res.repo}`);
+      this.infoLog('push', `push ${type} succeeded`, chalk.gray.underline(res.repo));
     });
   }
   
