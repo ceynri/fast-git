@@ -114,6 +114,7 @@ ftag 'feat: add some new features'
 | -n   | --notupdate | use current version, not update package.json version number                      |
 | -b   | --branch    | concatenate part of the branch name\* with version number as the tag name        |
 | -L   | --lerna     | lerna mode, equal to `--branch`                                                  |
+| -d   | --debug     | show more output information for debug                                           |
 | -h   | --help      | display help for command                                                         |
 
 > part of the branch name\*: If the branch name contains `_` or `/` symbol, the branch name will be truncated and the previous part will be used.

@@ -17,19 +17,12 @@ class Executor {
     this.args = args;
 
     // 参数branch与lenra等同
-    this.args.branch = this.args.lerna = this.args.branch || this.args.lerna
+    this.args.branch = this.args.lerna = this.args.branch || this.args.lerna;
 
     this.nocommit = false;
     this.version = '';
   }
-
-  /**
-   * 获取当前分支名
-   */
-  async getBranchName() {
-    return (await git.branch()).current;
-  }
-
+  
   /**
    * tag指令
    * （目前只有该功能）
@@ -91,13 +84,15 @@ class Executor {
         this.args.small,
       ]);
     }
-    utils.writeVersion(this.version);
-    await git.add('./package.json');
 
+    // 保存版本号至 package.json
+    utils.writeVersion(this.version);
+    
     // 提交更新
+    await git.add('./package.json');
     const msg = this.nocommit ? this.msg : `ci: version ${this.version}`;
     await git.commit(msg);
-    console.log(chalk.blue('[commit]'), 'message:', chalk.green(`"${msg}"`));
+    this.infoLog('commit', 'message:', chalk.green(`"${msg}"`));
 
     // 推送到远程仓库
     await this.push('commit');
@@ -108,12 +103,14 @@ class Executor {
    */
   async commitAll() {
     await git.add('-A');
-    console.log(chalk.blue('[add]'), 'add all changes');
+    this.infoLog('add', 'add all changes');
     const { branch, commit } = await git.commit(this.msg);
     if (commit) {
-      console.log(chalk.blue('[commit]'), `${branch} ${commit}:`, chalk.green(`"${this.msg}"`));
+      this.infoLog('commit', `${branch} ${commit}:`, chalk.green(`"${this.msg}"`));
     } else {
+      // 输入了 msg，但没有为暂存的文件
       this.nocommit = true;
+      // 后续将使用 msg 作为打 tag 时的 commit 信息
     }
   }
 
@@ -123,12 +120,14 @@ class Executor {
   async checkNewest() {
     try {
       const res = await git.pull();
+      this.debugLog('pull result:', res);
       if (!res.files || res.files.length) {
-        console.log(chalk.blue('[pull]'), res);
+        this.infoLog('pull', res);
       }
     } catch (e) {
-      console.log(chalk.blue('[pull]'), chalk.red(e.message));
-      console.log(chalk.yellow('Please check git status and try again'));
+      this.debugLog('pull error:', e);
+      this.infoLog('pull', chalk.red(e.message));
+      console.log(chalk.magenta('Please check git status and try again'));
       process.exit(1);
     }
   }
@@ -141,7 +140,7 @@ class Executor {
     const tagName = await this.getTagName();
     // 打tag
     await git.addTag(tagName);
-    console.log(chalk.blue('[tag]'), 'tag name:', chalk.green(tagName));
+    this.infoLog('tag', 'tag name:', chalk.green(tagName));
     // 推送到远程仓库
     await this.push('tag', tagName);
   }
@@ -170,10 +169,19 @@ class Executor {
     if (this.args.lerna) {
       // lerna类型仓库支持
       const branchName = await this.getBranchName();
-      const projectName = branchName.split('/')[0].split('_')[0];
-      tagName = `${projectName}_${tagName}`;
+      const branchNameInfo = branchName.split('/')[0].split('_')[0];
+      tagName = `${branchNameInfo}_${tagName}`;
     }
     return tagName;
+  }
+
+  /**
+   * 获取当前分支名
+   */
+  async getBranchName() {
+    const branchInfo = await git.branch();
+    this.debugLog('git branch:', branchInfo);
+    return branchInfo.current;
   }
 
   /**
@@ -182,11 +190,37 @@ class Executor {
    * @param  {...any} args push参数（可选）
    */
   async push(type = 'commit', ...args) {
-    console.log(chalk.blue('[push]'), chalk.gray(`pushing ${type} to remote repository...`));
+    this.debugLog(`pushing ${type} to remote repository...`);
     await git.push(['origin', ...args], (err, res) => {
+      this.debugLog('push result:', res);
       if (err) throw err;
-      console.log(chalk.blue('[push]'), 'succeeded:', chalk.underline(res.repo));
+      this.infoLog('push', `push ${type} succeeded: ${res.repo}`);
     });
+  }
+  
+  /**
+   * 输出美化后的信息内容
+   * @param {String} header 头部信息，一般为具体的操作名
+   * @param  {...any} logs 具体信息
+   */
+  infoLog(header, ...logs) {
+    console.log(chalk.blue(`[${header}]`), ...logs);
+  }
+
+  /**
+   * debug模式下输出更多的执行信息
+   * @param  {...any} logs 需要被打印的信息
+   */
+  debugLog(...logs) {
+    if (this.args && !this.args.debug) {
+      return;
+    }
+    for (let i = 0; i < logs.length; i++) {
+      if (logs[i] instanceof Object) {
+        logs[i] = JSON.stringify(logs[i], null, 2);
+      }
+    }
+    console.debug(chalk.yellow('[debug]', ...logs))
   }
 }
 

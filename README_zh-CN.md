@@ -44,7 +44,7 @@ npm install fast-tag --save-dev
 >   "script": {
 >     "tag": "ftag",
 >     "tag:lerna": "ftag -L",
->     "tag:m": "ftag -m",
+>     "tag:m": "ftag -m"
 >   }
 > }
 > ```
@@ -114,6 +114,7 @@ ftag 'feat: 添加某某新特性'
 | -n   | --notupdate | 使用当前 package.json 中记录的版本，不更新该版本号   |
 | -b   | --branch    | 在版本号前面拼接分支名的部分信息\*作为完整的标签名称 |
 | -L   | --lerna     | lerna 模式，效果等同于 `--branch`                    |
+| -d   | --debug     | 显示更多调试信息                                     |
 | -h   | --help      | 获取命令帮助                                         |
 
 > 部分信息\*: 如果分支名中含有`_`或者`/`符号，则截断分支名并取前面的字符串作为分支信息

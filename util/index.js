@@ -70,7 +70,7 @@ class Utils {
         process.exit(1);
       }
     }
-    console.log(chalk.yellow('package.json file not found!'));
+    console.log(chalk.magenta('package.json file not found!'));
     process.exit(1);
   }
 
@@ -118,7 +118,6 @@ class Utils {
       return defaultSize;
     }
     const spaceSize = res[1].length;
-    console.debug('indent size:', spaceSize);
     return spaceSize;
   }
 }

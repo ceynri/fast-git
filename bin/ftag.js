@@ -41,7 +41,7 @@ program
   )
   .option(
     '-d, --debug',
-    '(not implemented) show more console information'
+    'show more output information for debug'
   )
   .action((msg, args) => {
     (new Executor(msg, args)).tag();
