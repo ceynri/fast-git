@@ -50,6 +50,7 @@ class Utils {
 
   /**
    * 获取版本号
+   * @returns {String|null} 版本字符串（"X.Y.Z"）
    */
   getVersion() {
     return this.getPkg() && this.getPkg().version;
@@ -57,6 +58,7 @@ class Utils {
 
   /**
    * 获取 package.json 文件对象
+   * @returns {Object} package.json 反序列化得到的对象
    */
   getPkg() {
     const pkgPath = this.getPkgPath();
@@ -75,6 +77,7 @@ class Utils {
   /**
    * 获取最近的 package.json 文件路径
    * @param {String} currentDir 当前路径
+   * @returns {String} package.json 绝对路径
    */
   getPkgPath(currentDir = process.cwd()) {
     // 获取package.json对象
@@ -91,6 +94,7 @@ class Utils {
 
   /**
    * 判断是否是 monoRepo 类型（指 lerna 仓库）
+   * @returns {Boolean} 是否是嵌套多仓类型仓库
    */
   isMonoRepo() {
     const currentPkgPath = this.getPkgPath();
