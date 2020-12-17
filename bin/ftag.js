@@ -29,7 +29,7 @@ program
   )
   .option(
     '-n, --notupdate',
-    'use current version, not update package.json version'
+    'use current version, not update package.json version number'
   )
   .option(
     '-b, --branch',
