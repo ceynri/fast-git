@@ -26,7 +26,6 @@ Add script in package.json:
 
 ```json
 {
-  // ...
   "script": {
     "tag": "ftag"
   }
@@ -35,7 +34,7 @@ Add script in package.json:
 
 Then input command `npm run tag` to execute fast-tag.
 
-> ⚠ Note
+> ⚠ Notes
 >
 > Since `npm run xxx` does not support pass-through of params, fast-tag will be restricted in usage:
 >
@@ -124,7 +123,7 @@ ftag 'feat: add some new features'
 - [Simple Git](https://github.com/steveukx/git-js) - A lightweight interface for running git commands in any node.js application.
 - [Commander.js](https://github.com/tj/commander.js) - The complete solution for node.js command-line interfaces.
 
-> ⚠ Note
+> ⚠ Notes
 >
 > Simple Git depends on node.js version 12 or above, use in a lower version of node will result in errors.
 >

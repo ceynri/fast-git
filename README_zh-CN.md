@@ -26,7 +26,6 @@ npm install fast-tag --save-dev
 
 ```json
 {
-  // ...
   "script": {
     "tag": "ftag"
   }
