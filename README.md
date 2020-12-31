@@ -36,7 +36,7 @@ Then input command `npm run tag` to execute fast-tag.
 
 > ⚠ Notes
 >
-> Since `npm run xxx` does not support pass-through of params, fast-tag will be restricted in usage:
+> Since `npm run xxx` does not support pass-through of params, fast-tag will be restricted in usage. For example:
 >
 > ```json
 > {
@@ -48,7 +48,7 @@ Then input command `npm run tag` to execute fast-tag.
 > }
 > ```
 >
-> If more params are needed, global installation is recommended.
+> Therefore, if more params are needed, install globally is recommended.
 
 ## Dependencies
 
