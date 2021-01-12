@@ -129,6 +129,10 @@ ftag 'feat: 添加某某新特性'
 >
 > 推荐使用 node12 及以上的版本。如果低版本情况下遇到该问题也可以提交 issue，本项目将会在后续版本添加相应的 polyfill。
 
+## TODO
+
+- 使用 `npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>] | from-git]` 来代替当前更新 package.json 版本号的方法。
+
 ## 一些问题
 
 > 这个工具的目的是什么？

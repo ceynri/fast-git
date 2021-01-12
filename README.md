@@ -129,6 +129,10 @@ ftag 'feat: add some new features'
 >
 > It is recommended to use fast-tag in node.js version 12 or above. If you encounter this problem in the lower version, you can also submit an issue. The project will add polyfill in the later version.
 
+## Todo
+
+- use `npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease [--preid=<prerelease-id>] | from-git]` to update package.json version number.
+
 ## Questions
 
 > What is the purpose of this tool?
