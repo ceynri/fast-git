@@ -9,6 +9,16 @@ class Utils {
    * @returns {String} 新的版本号
    */
   updateVersion(updateArray) {
+    const version = this.getVersion();
+    if (!version) {
+      console.error(
+        chalk.red(
+          "The package.json doesn't have version in the current directory.\n" +
+            'Check if you are in the project directory.'
+        )
+      );
+      process.exit(1);
+    }
     // 获取版本号数组
     const verArray = this.getVersion().split('.', 3).map(Number);
     // 更新版本号
@@ -44,7 +54,11 @@ class Utils {
         console.error(chalk.red(err));
         return '';
       }
-      console.log(chalk.blue('[write]'), 'update package.json version:', chalk.green(version));
+      console.log(
+        chalk.blue('[write]'),
+        'update package.json version:',
+        chalk.green(version)
+      );
     });
   }
 
@@ -114,7 +128,11 @@ class Utils {
     const regex = /^{\n(\s+)/;
     const res = regex.exec(fileString);
     if (!res) {
-      console.warn(chalk.magenta(`Failed to detect indentation size of package.json, use the default value "${defaultSize}"`));
+      console.warn(
+        chalk.magenta(
+          `Failed to detect indentation size of package.json, use the default value "${defaultSize}"`
+        )
+      );
       return defaultSize;
     }
     const spaceSize = res[1].length;
