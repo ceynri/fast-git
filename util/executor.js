@@ -90,7 +90,12 @@ class Executor {
     
     // 提交更新
     await git.add('./package.json');
-    const msg = this.nocommit ? this.msg : `ci: version ${this.version}`;
+    let commitHeader = 'ci';
+    if (this.args.lerna) {
+      const branchNameInfo = await this.getBranchNameInfo();
+      commitHeader += `(${branchNameInfo})`;
+    }
+    const msg = this.nocommit ? this.msg : `${commitHeader}: version ${this.version}`;
     await git.commit(msg);
     this.infoLog('commit', 'message:', chalk.green(`"${msg}"`));
 
@@ -168,11 +173,16 @@ class Executor {
     }
     if (this.args.lerna) {
       // lerna类型仓库支持
-      const branchName = await this.getBranchName();
-      const branchNameInfo = branchName.split('/')[0].split('_')[0];
+      const branchNameInfo = await this.getBranchNameInfo();
       tagName = `${branchNameInfo}_${tagName}`;
     }
     return tagName;
+  }
+
+
+  async getBranchNameInfo() {
+    const branchName = await this.getBranchName();
+    return branchName.split('/')[0].split('_')[0];
   }
 
   /**
@@ -194,7 +204,7 @@ class Executor {
     await git.push(['origin', ...args], (err, res) => {
       this.debugLog('push result:', res);
       if (err) throw err;
-      this.infoLog('push', `push ${type} succeeded`, chalk.gray.underline(res.repo));
+      this.infoLog('push', `push ${type} succeeded`);
     });
   }
   
