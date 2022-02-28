@@ -47,7 +47,7 @@ class Utils {
     const pkgPath = this.getPkgPath();
     const indentSize = this.getIndentSize(pkgPath);
     // 将package序列化为json字符串
-    const pkgJson = JSON.stringify(pkg, null, indentSize);
+    const pkgJson = `${JSON.stringify(pkg, null, indentSize)}\n`;
     // 将修改后的内容写入package.json
     fs.writeFile(pkgPath, pkgJson, (err) => {
       if (err) {
